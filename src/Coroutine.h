@@ -2,10 +2,14 @@
 #define ZL_COROUTINE_H
 #include <stdint.h>
 #include <ucontext.h>
-//#include <stdint.h>
+#include <unistd.h>
 #include <map>
 #include <functional>    // for std::function
 #include "OsDefine.h"
+#include <arpa/inet.h>   //inet_addr
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/socket.h>
 
 //default coroutine stack size
 #define CORO_STACKSIZE (1024 * 1024)
@@ -51,6 +55,12 @@ public:
     /// return current running coroutin or 0 when called by main thread
     CoroId running() const;
 
+public:
+    int        accept(int sockfd, struct sockaddr *addr, socklen_t* addrlen);
+    ssize_t    recv(int fd, void* buf, size_t len, int flags);
+    ssize_t    send(int fd, const void* buf, size_t len, int flags);
+    int        close(int fd);
+
 private:
     static void corofunc(uint32_t low32, uint32_t hi32);
 
@@ -58,11 +68,11 @@ private:
     void    deleteCoroutine(Coro* co);
 
 private:
+    char        stack_[CORO_STACKSIZE];
     CoroId      coroSequence_;              /// coro id
     CoroId      runningId_;                 /// current running coro id
     ucontext_t  mainContext_;
-    char        stack_[CORO_STACKSIZE];
-
+    
     std::map<CoroId, Coro*> coros_;
 };
 

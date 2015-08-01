@@ -12,28 +12,28 @@ int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_
     return 0;
 }
 
-//#undef accept
-//int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
-//{
-//    return gCoroutine.accept(sockfd, addr, addrlen);
-//}
-//
-//#undef recv
-//ssize_t recv(int fd, void *buf, size_t len, int flags)
-//{
-//    return gCoroutine.recv(fd, buf, len, flags);
-//}
-//
-//#undef send
-//ssize_t send(int fd, const void *buf, size_t len, int flags)
-//{
-//    return gCoroutine.send(fd, buf, len, flags);
-//}
-//
-//#undef close
-//int close(int fd)
-//{
-//    return gCoroutine.close(fd);
-//}
+#undef accept
+int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen)
+{
+    return gCoroutine.accept(sockfd, addr, addrlen);
+}
+
+#undef recv
+ssize_t recv(int fd, void *buf, size_t len, int flags)
+{
+    return gCoroutine.recv(fd, buf, len, flags);
+}
+
+#undef send
+ssize_t send(int fd, const void *buf, size_t len, int flags)
+{
+    return gCoroutine.send(fd, buf, len, flags);
+}
+
+#undef close
+int close(int fd)
+{
+    return gCoroutine.close(fd);
+}
 
 }

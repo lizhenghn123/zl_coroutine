@@ -215,3 +215,24 @@ void Coroutine::deleteCoroutine(Coro* co)
     coros_.erase(co->id_);
     delete co;
 }
+
+
+int        Coroutine::accept(int sockfd, struct sockaddr *addr, socklen_t* addrlen)
+{
+    
+}
+
+ssize_t    Coroutine::recv(int fd, void* buf, size_t len, int flags)
+{
+    
+}
+
+ssize_t    Coroutine::send(int fd, const void* buf, size_t len, int flags)
+{
+    
+}
+
+int        Coroutine::close(int fd)
+{
+    
+}
