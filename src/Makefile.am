@@ -18,6 +18,6 @@ libzlcoro_la_LIBADD =
 
 INCLUDES                   = -I../
 libzlcoro_la_CPPFLAGS =-O2 -std=c++0x -fPIC -shared
-libzlcoro_la_LDFLAGS = -lrt	
+libzlcoro_la_LDFLAGS = -lrt -ldl
 
 libzlcoro_la_SOURCES = Coroutine.cpp Hooks.cpp

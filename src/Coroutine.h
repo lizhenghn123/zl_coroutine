@@ -4,6 +4,7 @@
 #include <ucontext.h>
 #include <unistd.h>
 #include <map>
+#include <vector>
 #include <functional>    // for std::function
 #include "OsDefine.h"
 #include <arpa/inet.h>   //inet_addr
@@ -22,6 +23,7 @@ enum CoroStatus
     COROUTINE_DEAD           /// coroutine has finished
 };
 
+struct Socket;
 typedef size_t CoroId;
 typedef std::function<void ()> CoroutineFunction;
 
@@ -60,12 +62,15 @@ public:
     ssize_t    recv(int fd, void* buf, size_t len, int flags);
     ssize_t    send(int fd, const void* buf, size_t len, int flags);
     int        close(int fd);
+    int        poll(int timeoutMs, std::vector<Coro*>* activeCoro);
 
 private:
     static void corofunc(uint32_t low32, uint32_t hi32);
 
     Coro*   getCoroutine(CoroId id) const;
     void    deleteCoroutine(Coro* co);
+
+    Socket*     getSocket(int fd);
 
 private:
     char        stack_[CORO_STACKSIZE];
@@ -74,6 +79,10 @@ private:
     ucontext_t  mainContext_;
     
     std::map<CoroId, Coro*> coros_;
+
+    int         epollfd_;
+    std::vector<Socket*>     socks_;
+    std::vector<Coro*>     activeCoros_;
 };
 
 extern Coroutine gCoroutine;
