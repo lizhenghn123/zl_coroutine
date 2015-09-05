@@ -6,4 +6,4 @@ compiler:
 # Change this to your needs
 
 script:
-    - make
+    - sh bootstrap
